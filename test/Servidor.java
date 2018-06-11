@@ -14,12 +14,11 @@ public class Servidor{
     ServerSocket ss;
     Socket cs;
     ObjectOutputStream salidaCliente;
-    Command cmd;
     public Servidor(){
-        cmd = new Command();
         cfg = new Config();
         port = Integer.parseInt(cfg.get("port"));
         System.out.println(port);
+        //Thread hilo= new Thread(this);
         this.start();
     }
     public void start(){
@@ -34,7 +33,9 @@ public class Servidor{
             salidaCliente = new ObjectOutputStream(cs.getOutputStream());
             ObjectInputStream entrada = new ObjectInputStream(cs.getInputStream());
             Message m = (Message)entrada.readObject();
-            Message response = cmd.proccesCommand(m);
+            System.out.println(m.getCommand());
+            Thread.sleep(5000);
+            Message response = new Message("Recibido! :D ","owo","awa");
             salidaCliente.writeObject(response);
             cs.close();
             System.out.println("Conexion terminada!");

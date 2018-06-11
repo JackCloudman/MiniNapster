@@ -4,18 +4,23 @@ import java.sql.*;
 import java.io.FileInputStream;
 import java.io.File;
 class sql_helper {
-  String conexionUrl = "jdbc:mysql://localhost:3306/POO";
-  String dbUser = "root";
-  String dbPwd = "";
   Connection conexion = null;
+  Config cfg;
   public sql_helper(){
+    cfg = new Config();
     conexion = getConnection();
     }
   public Connection getConnection(){
     Connection conn;
     try {
       Class.forName("com.mysql.jdbc.Driver");
-      String url = "jdbc:mysql://localhost:3306/MiniNapster";
+      String dbhost = cfg.get("dbhost");
+      String dbport = cfg.get("dbport");
+      String dbname = cfg.get("dbname");
+      String dbUser = cfg.get("dbuser");
+      String dbPwd = "";
+      String url = "jdbc:mysql://"+dbhost+":"+dbport+"/"+dbname;
+      System.out.println(url);
       conn = DriverManager.getConnection(url,dbUser,dbPwd);
     }catch (Exception e) {
       conn = null;
@@ -23,20 +28,38 @@ class sql_helper {
     }
     return conn;
   }
-  public void registrar(String nickname,String password){
+  public boolean existUser(String nickname) throws Exception{
+    if(conexion==null){
+      System.out.println("No se realizo correctamente la conexion! Verifica el estado de tu red!");
+      return true;
+    }
+    String query = "Select * from sistema_usuarios where nickname='"+nickname+"'";
+    Statement stmt = conexion.createStatement();
+    ResultSet rs = stmt.executeQuery(query);
+    if(rs.next()){
+      return true;
+    }
+    return false;
+  }
+  public boolean registrar(String nickname,String password){
     try{
+      if(existUser(nickname)){
+        return false;
+      }
       String query= "Insert into sistema_usuarios(nickname,password) values(?,?)";
       if(conexion==null){
         System.out.println("No se realizo correctamente la conexion! Verifica el estado de tu red!");
-        return;
+        return false;
       }
       PreparedStatement stmt = null;
       stmt = conexion.prepareStatement(query);
       stmt.setString(1,nickname);
       stmt.setString(2,password);
       stmt.executeUpdate();
+      return true;
     }catch(Exception e){
       System.out.println(e);
+      return false;
     }
   }
   public boolean login(String nickname,String password) throws Exception{

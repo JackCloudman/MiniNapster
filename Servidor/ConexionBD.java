@@ -2,8 +2,8 @@ import java.util.*;
 public class ConexionBD{
     sql_helper sql; //Objeto que nos ayudara a conectarnos a la base de datos
 
-    //Constructor 
-    public ConexionBD()throws Exception{ 
+    //Constructor
+    public ConexionBD()throws Exception{
         int intentos=0;
         while(true){
             sql = new sql_helper();
@@ -18,16 +18,10 @@ public class ConexionBD{
             }
         }
     }
-    public void insert(String nickname,String password){
-        sql.registrar(nickname,password);
-        return;
+    public boolean insert(String nickname,String password){
+        return sql.registrar(nickname,password);
     }
-    public void login(String nickname,String password)throws Exception{
-        if(sql.login(nickname,password)){
-            System.out.println("Has iniciado sesion :o ");
-        }else{
-            System.out.println("Usuario o contraseña incorrecto!");
-        }
-        return;
+    public boolean login(String nickname,String password)throws Exception{
+        return sql.login(nickname,password);
     }
 }
