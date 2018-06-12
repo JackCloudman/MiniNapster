@@ -75,4 +75,47 @@ class sql_helper {
     }
     return false;
   }
+  public boolean upload(String titulo,String duracion,String artista,String album){
+    try{
+      String query= "Insert into canciones(nombre,duracion,artista,album,usuario) values(?,?,?,?,?)";
+      if(conexion==null){
+        System.out.println("No se realizo correctamente la conexion! Verifica el estado de tu red!");
+        return false;
+      }
+      PreparedStatement stmt = null;
+      stmt = conexion.prepareStatement(query);
+      stmt.setString(1,titulo);
+      stmt.setString(2,duracion);
+      stmt.setString(3,artista);
+      stmt.setString(4,album);
+      stmt.setInt(5,1);//id de usuario
+      stmt.executeUpdate();
+      return true;
+    }catch(Exception e){
+      System.out.println(e);
+      return false;
+    }
+  }
+  public boolean deletesongs(int user_id)throws Exception{
+      if(conexion==null){
+        System.out.println("No se realizo correctamente la conexion! Verifica el estado de tu red!");
+        return false;
+      }
+      String query = "DELETE FROM canciones WHERE usuario= '"+user_id+"'";
+      Statement stmt = conexion.createStatement();
+      stmt.executeUpdate(query);
+      return true;
+  }
+  public ArrayList<String[]> search(String name)throws Exception{
+    String query = "Select DISTINCT(c.id_cancion),c.nombre titulo,c.duracion duracion,c.artista artista,c.album album,u.ip from canciones c join usuario_ip u on c.usuario=u.usuario where c.nombre REGEXP '"+name+"' or c.album REGEXP '"+name+"' or c.artista REGEXP '"+name+"'";
+    Statement stmt = conexion.createStatement();
+    ResultSet rs = stmt.executeQuery(query);
+    ArrayList<String[]> lista = new ArrayList<String[]>();
+    String[] song;
+    while (rs.next()) {
+      song = new String[] {rs.getString("titulo"),rs.getString("duracion"),rs.getString("artista"),rs.getString("album"),rs.getString("duracion"),rs.getString("ip")};
+      lista.add(song);
+    }
+    return lista;
+  }
 }

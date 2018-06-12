@@ -24,4 +24,24 @@ public class ConexionBD{
     public boolean login(String nickname,String password)throws Exception{
         return sql.login(nickname,password);
     }
+    public boolean upload(ArrayList<String[]> listacanciones,String user){
+      boolean response = true;
+      try{
+        if(!(sql.deletesongs(1))){
+          System.out.println("Error al eliminar las canciones XD");
+          return false;
+        }
+      }catch (Exception e) {
+        return false;
+      }
+      for(String[] cancion:listacanciones){
+        if(!(sql.upload(cancion[0],cancion[1],cancion[2],cancion[3]))){
+          response = false;
+        }
+      }
+      return response;
+    }
+    public ArrayList<String[]> search(String name)throws Exception{
+      return sql.search(name);
+    }
 }

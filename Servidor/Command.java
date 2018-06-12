@@ -15,6 +15,10 @@ public class Command{
       return login(m);
     }else if (c.equals("register")) {
       return register(m);
+    }else if (c.equals("upload")) {
+      return upload(m);
+    }else if (c.equals("search")) {
+      return search(m);
     }
     else{
       return new Message("Comando no encontrado!",false);
@@ -37,5 +41,15 @@ public class Command{
     }else{
         return new Message("Error en usuario o contraseña!",false);
     }
+  }
+  private Message upload(Message m) throws Exception{
+    if(db.upload(m.getSongs(),m.getUser())){
+      return new Message("Canciones subidas!",true);
+    }else{
+      return new Message("Error al subir alguna o todas las canciones!",false);
+    }
+  }
+  private Message search(Message m)throws Exception{
+    return new Message("Busqueda finalizada!",db.search(m.getdata()));
   }
 }
