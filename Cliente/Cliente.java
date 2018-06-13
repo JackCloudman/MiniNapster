@@ -98,14 +98,18 @@ public class Cliente implements ActionListener {
     public void actionPerformed(ActionEvent e){
       JButton btn = (JButton)e.getSource();
       if(btn==buscar){
-      /*  lista = execute.search(textobusqueda.getText());
+      lista = execute.search(textobusqueda.getText());
         if(lista==null){
           return;
         }
-        String[][] data = lista.toArray(new String[][] {});
+        ArrayList<String[]> lista_display = new ArrayList<String[]>();
+        for(Cancion cancion:lista){
+          lista_display.add(cancion.toArray());
+        }
+        String[][] data = lista_display.toArray(new String[][] {});
         DefaultTableModel model = new DefaultTableModel(data,column); // for example
         jt.setModel(model);
-        model.fireTableDataChanged();*/
+        model.fireTableDataChanged();
       /*String data[][]={ {"101","Amit","670000"},
                             {"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},
                             {"101","Sachin","700000"}};

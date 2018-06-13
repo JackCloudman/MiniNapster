@@ -108,7 +108,7 @@ class sql_helper {
       return true;
   }
   public ArrayList<Cancion> search(String name)throws Exception{
-    String query = "Select DISTINCT(c.id_cancion),c.nombre titulo,c.duracion duracion,c.artista artista,c.album album,u.ip from canciones c join usuario_ip u on c.usuario=u.usuario where c.nombre REGEXP '"+name+"' or c.album REGEXP '"+name+"' or c.artista REGEXP '"+name+"'";
+    String query = "Select DISTINCT(c.id_cancion),c.nombre titulo,c.duracion duracion,c.artista artista,c.album album,c.path path,u.ip from canciones c join usuario_ip u on c.usuario=u.usuario where c.nombre REGEXP '"+name+"' or c.album REGEXP '"+name+"' or c.artista REGEXP '"+name+"'";
     Statement stmt = conexion.createStatement();
     ResultSet rs = stmt.executeQuery(query);
     ArrayList<Cancion> lista = new ArrayList<Cancion>();

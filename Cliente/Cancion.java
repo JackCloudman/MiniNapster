@@ -26,4 +26,8 @@ public class Cancion implements Serializable{
   public String toString(){
     return "{titulo: "+titulo+",album: "+album+",duracion: "+duracion+",artista:"+artista+",path:"+path+"}";
   }
+  public String[] toArray(){
+    return new String []{titulo,album,duracion,artista,path};
+  }
+
 }
