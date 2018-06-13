@@ -75,20 +75,21 @@ class sql_helper {
     }
     return false;
   }
-  public boolean upload(String titulo,String duracion,String artista,String album){
+  public boolean upload(Cancion c,int user_id){
     try{
-      String query= "Insert into canciones(nombre,duracion,artista,album,usuario) values(?,?,?,?,?)";
+      String query= "Insert into canciones(nombre,duracion,artista,album,path,usuario) values(?,?,?,?,?,?)";
       if(conexion==null){
         System.out.println("No se realizo correctamente la conexion! Verifica el estado de tu red!");
         return false;
       }
       PreparedStatement stmt = null;
       stmt = conexion.prepareStatement(query);
-      stmt.setString(1,titulo);
-      stmt.setString(2,duracion);
-      stmt.setString(3,artista);
-      stmt.setString(4,album);
-      stmt.setInt(5,1);//id de usuario
+      stmt.setString(1,c.getTitulo());
+      stmt.setString(2,c.getDuracion());
+      stmt.setString(3,c.getArtista());
+      stmt.setString(4,c.getAlbum());
+      stmt.setString(5,c.getPath());
+      stmt.setInt(6,user_id);//id de usuario
       stmt.executeUpdate();
       return true;
     }catch(Exception e){
@@ -106,14 +107,14 @@ class sql_helper {
       stmt.executeUpdate(query);
       return true;
   }
-  public ArrayList<String[]> search(String name)throws Exception{
+  public ArrayList<Cancion> search(String name)throws Exception{
     String query = "Select DISTINCT(c.id_cancion),c.nombre titulo,c.duracion duracion,c.artista artista,c.album album,u.ip from canciones c join usuario_ip u on c.usuario=u.usuario where c.nombre REGEXP '"+name+"' or c.album REGEXP '"+name+"' or c.artista REGEXP '"+name+"'";
     Statement stmt = conexion.createStatement();
     ResultSet rs = stmt.executeQuery(query);
-    ArrayList<String[]> lista = new ArrayList<String[]>();
-    String[] song;
+    ArrayList<Cancion> lista = new ArrayList<Cancion>();
+    Cancion song;
     while (rs.next()) {
-      song = new String[] {rs.getString("titulo"),rs.getString("duracion"),rs.getString("artista"),rs.getString("album"),rs.getString("duracion"),rs.getString("ip")};
+      song = new Cancion(rs.getString("titulo"),rs.getString("album"),rs.getString("duracion"),rs.getString("artista"),rs.getString("path"));
       lista.add(song);
     }
     return lista;

@@ -24,7 +24,7 @@ public class ConexionBD{
     public boolean login(String nickname,String password)throws Exception{
         return sql.login(nickname,password);
     }
-    public boolean upload(ArrayList<String[]> listacanciones,String user){
+    public boolean upload(ArrayList<Cancion> listacanciones,String user){
       boolean response = true;
       try{
         if(!(sql.deletesongs(1))){
@@ -34,14 +34,14 @@ public class ConexionBD{
       }catch (Exception e) {
         return false;
       }
-      for(String[] cancion:listacanciones){
-        if(!(sql.upload(cancion[0],cancion[1],cancion[2],cancion[3]))){
+      for(Cancion cancion:listacanciones){
+        if(!(sql.upload(cancion,1))){
           response = false;
         }
       }
       return response;
     }
-    public ArrayList<String[]> search(String name)throws Exception{
+    public ArrayList<Cancion> search(String name)throws Exception{
       return sql.search(name);
     }
 }

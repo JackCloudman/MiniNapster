@@ -7,14 +7,14 @@ public class Message implements Serializable{
   private String response;
   private boolean result;
   private String data;
-  private ArrayList<String[]> listacanciones;
+  private ArrayList<Cancion> listacanciones;
   //Metodos para cliente
   public Message(String command,String user,String password){
     this.command = command;
     this.user = user;
     this.password = password;
   }
-  public Message(String command,String user,ArrayList<String[]> listacanciones){
+  public Message(String command,String user,ArrayList<Cancion> listacanciones){
     this.command = command;
     this.user = user;
     this.listacanciones = listacanciones;
@@ -29,7 +29,7 @@ public class Message implements Serializable{
     this.response = response;
     this.result = result;
   }
-  public Message(String response,ArrayList<String[]> listacanciones){
+  public Message(String response,ArrayList<Cancion> listacanciones){
     command = "response";
     this.response = response;
     this.listacanciones = listacanciones;
@@ -58,7 +58,7 @@ public class Message implements Serializable{
   public boolean getResult(){
     return result;
   }
-  public ArrayList<String[]> getSongs(){
+  public ArrayList<Cancion> getSongs(){
     return listacanciones;
   }
   public String getdata(){

@@ -15,7 +15,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.lang.Float;
 public class AudioParser {
 
-    public String[] getData(File file) {
+    public Cancion getData(File file) {
         try {
           String fileLocation = file.toPath().toString();
         InputStream input = new FileInputStream(new File(fileLocation));
@@ -25,7 +25,6 @@ public class AudioParser {
         ParseContext parseCtx = new ParseContext();
         parser.parse(input, handler, metadata, parseCtx);
         input.close();
-        String[] metadataNames = metadata.names();
         // Retrieve the necessary info from metadata
         // Names - title, xmpDM:artist etc. - mentioned below may differ based
         String titulo = metadata.get("title");
@@ -48,7 +47,7 @@ public class AudioParser {
         if(album==null){
           album = "Album Desconocido";
         }
-        return new String[] {titulo,duracion,artista,album};
+        return new Cancion(titulo,album,duracion,artista,file.getName());
 
         } catch (FileNotFoundException e) {
         return null;

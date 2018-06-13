@@ -3,10 +3,10 @@ import java.util.Arrays;
 import java.util.ArrayList;
 public class Archivos{
 
-public static ArrayList<String[]> getSongs(String path) {
+public static ArrayList<Cancion> getSongs(String path) {
     File folder = new File(path);
-    ArrayList<String[]> lista = new ArrayList<String[]>();
-    String [] song;
+    ArrayList<Cancion> lista = new ArrayList<Cancion>();
+    Cancion song;
     AudioParser a = new AudioParser();
     for (final File fileEntry : folder.listFiles()) {
         if (fileEntry.isDirectory()) {

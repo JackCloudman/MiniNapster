@@ -49,7 +49,7 @@ public class Command{
     String m = response.getResponse();
     JOptionPane.showMessageDialog(null,m);
   }
-  public boolean upload(String user,ArrayList<String[]> listacanciones){
+  public boolean upload(String user,ArrayList<Cancion> listacanciones){
     try{
       if(listacanciones.size()==0){
         JOptionPane.showMessageDialog(null,"La carpeta no tiene canciones!");
@@ -65,7 +65,7 @@ public class Command{
         return false;
       }
   }
-  public ArrayList<String[]> search(String busqueda){
+  public ArrayList<Cancion> search(String busqueda){
     try{
       if(busqueda.equals("")){
         JOptionPane.showMessageDialog(null,"Ingresa una palabra para buscar una cancion!");

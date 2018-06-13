@@ -13,7 +13,7 @@ public class Cliente implements ActionListener {
     JTextField textobusqueda;
     String column[]={"Titulo","Duracion","Artista","Album"};
     String path;
-    ArrayList<String[]> lista;
+    ArrayList<Cancion> lista;
     private Command execute;
     public Cliente(){
         execute = new Command();
@@ -98,14 +98,14 @@ public class Cliente implements ActionListener {
     public void actionPerformed(ActionEvent e){
       JButton btn = (JButton)e.getSource();
       if(btn==buscar){
-        lista = execute.search(textobusqueda.getText());
+      /*  lista = execute.search(textobusqueda.getText());
         if(lista==null){
           return;
         }
         String[][] data = lista.toArray(new String[][] {});
         DefaultTableModel model = new DefaultTableModel(data,column); // for example
         jt.setModel(model);
-        model.fireTableDataChanged();
+        model.fireTableDataChanged();*/
       /*String data[][]={ {"101","Amit","670000"},
                             {"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},
                             {"101","Sachin","700000"}};
@@ -118,9 +118,9 @@ public class Cliente implements ActionListener {
         if(!path.equals("")){
             lista = Archivos.getSongs(path);
             execute.upload("jack",lista);
-            /*for(String[] cancion:lista){
-              System.out.println(Arrays.toString(cancion));
-            }*/
+            for(Cancion cancion:lista){
+              System.out.println(cancion.toString());
+            }
           }
 
       }
