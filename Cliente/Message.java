@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.*;
 public class Message implements Serializable{
   private String command;
   private String user;
@@ -8,7 +9,8 @@ public class Message implements Serializable{
   private boolean result;
   private String data;
   private ArrayList<Cancion> listacanciones;
-  //Metodos para cliente
+  private byte[] filebytes;
+  //Constructores para cliente
   public Message(String command,String user,String password){
     this.command = command;
     this.user = user;
@@ -23,7 +25,7 @@ public class Message implements Serializable{
     this.command = command;
     this.data = data;
   }
-  //Metodos para servidor
+  //Constructores para servidor
   public Message(String response,boolean result){
     command = "response";
     this.response = response;
@@ -38,6 +40,11 @@ public class Message implements Serializable{
     }else{
       this.result = true;
     }
+  }
+  //Constructores para el MiniServer
+  public Message(String response,byte[] filebytes){
+    this.filebytes = filebytes;
+    this.response = response;
   }
   //
   public void setCommand(String command){
@@ -63,5 +70,21 @@ public class Message implements Serializable{
   }
   public String getdata(){
     return data;
+  }
+  public String getData(){
+    return data;
+  }
+  ///
+  public void setUser(String user){
+    this.user = user;
+  }
+  public void setData(String data){
+    this.data = data;
+  }
+  public void setResult(boolean result){
+    this.result = result;
+  }
+  public byte[] getFileBytes(){
+    return filebytes;
   }
 }

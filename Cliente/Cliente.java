@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.table.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-public class Cliente implements ActionListener,MouseListener,Runnable{
+public class Cliente implements ActionListener,MouseListener{
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
@@ -14,13 +14,15 @@ public class Cliente implements ActionListener,MouseListener,Runnable{
     String column[]={"Titulo","Duracion","Artista","Album"};
     String path;
     ArrayList<Cancion> lista;
-    int n_cancion;
+    int n_cancion,port;
     Thread t;
+    Config cfg;
+    MiniServer miniserver;
     private Command execute;
     public Cliente(){
+        cfg = new Config();
+        port = Integer.parseInt(cfg.get("port"));
         execute = new Command();
-        t = new Thread();
-        t.start();
     }
     // Componentes para el interfaz
     public void addComponentsToPane(Container pane) {
@@ -150,23 +152,19 @@ public class Cliente implements ActionListener,MouseListener,Runnable{
       if(btn==carpeta){
         path = Select.selectFolder();
         if(!path.equals("")){
+          System.out.println("Thread desde MiniServer");
             lista = Archivos.getSongs(path);
             execute.upload("jack",lista);
+            if(miniserver==null){
+              miniserver = new MiniServer(path);
+            }else{
+              miniserver.updatePath(path);
+            }
           }
 
       }
-
-    }
-    public void run(){
-      while(true){
-        if(path==null){
-          try{
-            System.out.println("Esperando....");
-            t.sleep(5000);
-          }catch(Exception e){  System.out.println(e);}
-        }else{
-          System.out.println(path);
-        }
+      if(btn==descargar){
+          execute.descargar(lista.get(n_cancion),path);
       }
 
     }

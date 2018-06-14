@@ -83,5 +83,56 @@ public class Command{
         return null;
       }
   }
+  public Message createFile(String path,String name){
+    Message m;
+    byte[] fileBytes;
+    try{
+      RandomAccessFile f = new RandomAccessFile(path+name,"r");
+      fileBytes = new byte[(int)f.length()];
+      f.readFully(fileBytes);
+      m = new Message("Cancion enviada!",fileBytes);
+      m.setResult(true);
+      m.setData(name);
+    }catch(Exception e){
+      fileBytes = new byte[]{};
+      System.out.println(e);
+      m = new Message("No se encuentra el archivo!",fileBytes);
+      m.setResult(false);
+      m.setData("");
+    }
+    return m;
+  }
+  public boolean descargar(Cancion c,String path){
+    try{
+      Socket cs = new Socket(c.ip,9000);
+      ObjectOutputStream salida = new ObjectOutputStream(cs.getOutputStream());
+
+      /*System.out.println("Objeto enviado!");
+      ObjectInputStream entrada = new ObjectInputStream(cs.getInputStream());
+      return (Message)entrada.readObject();*/
+
+      Message request = new Message("download",c.getTitulo()+".mp3");
+      salida.writeObject(request);
+      System.out.println("descargando...");
+      ObjectInputStream entrada = new ObjectInputStream(cs.getInputStream());
+      Message response = (Message)entrada.readObject();
+      if(!response.getResult()){
+        JOptionPane.showMessageDialog(null,response.getResponse());
+        return false;
+      }
+      FileOutputStream stream = new FileOutputStream(c.getTitulo()+".mp3");
+      try {
+        stream.write(response.getFileBytes());
+      } finally {
+        stream.close();
+      }
+      JOptionPane.showMessageDialog(null,"Cancion descargada correctamente!");
+      return true;
+
+    }catch (Exception e) {
+        JOptionPane.showMessageDialog(null,"No se pudo conectar al MiniServer!");
+        return false;
+      }
+  }
 
 }
