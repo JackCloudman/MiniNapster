@@ -4,19 +4,23 @@ import java.awt.event.*;
 import javax.swing.table.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-public class Cliente implements ActionListener {
+public class Cliente implements ActionListener,MouseListener,Runnable{
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
-    JButton buscar,carpeta;
+    JButton buscar,carpeta,descargar;
     JTable jt;
     JTextField textobusqueda;
     String column[]={"Titulo","Duracion","Artista","Album"};
     String path;
     ArrayList<Cancion> lista;
+    int n_cancion;
+    Thread t;
     private Command execute;
     public Cliente(){
         execute = new Command();
+        t = new Thread();
+        t.start();
     }
     // Componentes para el interfaz
     public void addComponentsToPane(Container pane) {
@@ -26,6 +30,7 @@ public class Cliente implements ActionListener {
         //Creando el jpanel
         String data[][] = {{"---","---","---","---"}};
         jt=new JTable(data,column);
+        jt.addMouseListener(this);
         jt.setBounds(30,40,200,300);
         JScrollPane sp=new JScrollPane(jt);
         pane.setLayout(new GridBagLayout());
@@ -76,6 +81,19 @@ public class Cliente implements ActionListener {
         c.gridwidth = 1;   //2 columns wide
         c.gridy = 2;       //third row
         pane.add(carpeta, c);
+
+        descargar = new JButton("Descargar");
+        descargar.setEnabled(false);
+        descargar.addActionListener(this);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.ipady = 0;       //reset to default
+        c.weighty = 1.0;   //request any extra vertical space
+        c.anchor = GridBagConstraints.PAGE_END; //bottom of space
+        c.insets = new Insets(10,0,0,0);  //top padding
+        c.gridx = 3;       //aligned with button 2
+        c.gridwidth = 1;   //2 columns wide
+        c.gridy = 2;       //third row
+        pane.add(descargar, c);
     }
 
     /**
@@ -95,6 +113,24 @@ public class Cliente implements ActionListener {
         frame.pack();
         frame.setVisible(true);
     }
+    public void mouseClicked(MouseEvent e){
+      //DefaultTableModel model = (DefaultTableModel)jt.getModel();
+      n_cancion = jt.getSelectedRow();
+      if(lista==null)
+        return;
+      descargar.setEnabled(true);
+      System.out.println(lista.get(n_cancion).toString());
+    }
+    //Implementacion trivial para metodos que no usaremos
+    public void mouseExited(MouseEvent e){
+    }
+    public void mouseEntered(MouseEvent e){
+    }
+    public void mouseReleased(MouseEvent e){
+    }
+    public void mousePressed(MouseEvent e){
+    }
+    //Listener
     public void actionPerformed(ActionEvent e){
       JButton btn = (JButton)e.getSource();
       if(btn==buscar){
@@ -110,23 +146,27 @@ public class Cliente implements ActionListener {
         DefaultTableModel model = new DefaultTableModel(data,column); // for example
         jt.setModel(model);
         model.fireTableDataChanged();
-      /*String data[][]={ {"101","Amit","670000"},
-                            {"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},{"102","Jai","780000"},
-                            {"101","Sachin","700000"}};
-      DefaultTableModel model = new DefaultTableModel(data,column); // for example
-      jt.setModel(model);
-      model.fireTableDataChanged();*/
       }
       if(btn==carpeta){
         path = Select.selectFolder();
         if(!path.equals("")){
             lista = Archivos.getSongs(path);
             execute.upload("jack",lista);
-            for(Cancion cancion:lista){
-              System.out.println(cancion.toString());
-            }
           }
 
+      }
+
+    }
+    public void run(){
+      while(true){
+        if(path==null){
+          try{
+            System.out.println("Esperando....");
+            t.sleep(5000);
+          }catch(Exception e){  System.out.println(e);}
+        }else{
+          System.out.println(path);
+        }
       }
 
     }

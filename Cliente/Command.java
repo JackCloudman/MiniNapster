@@ -52,6 +52,8 @@ public class Command{
   public boolean upload(String user,ArrayList<Cancion> listacanciones){
     try{
       if(listacanciones.size()==0){
+        Message request = new Message("clear","");
+        request.setUser(user);
         JOptionPane.showMessageDialog(null,"La carpeta no tiene canciones!");
         return false;
       }

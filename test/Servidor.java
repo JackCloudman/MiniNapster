@@ -27,15 +27,18 @@ public class Servidor{
         ss = new ServerSocket(port);
         System.out.println(port);
         //cs = new Socket();
+        File file;
         while (true) {
             cs = ss.accept();
             System.out.println("Conexion establecida! ");
             salidaCliente = new ObjectOutputStream(cs.getOutputStream());
             ObjectInputStream entrada = new ObjectInputStream(cs.getInputStream());
             Message m = (Message)entrada.readObject();
-            System.out.println(m.getCommand());
-            Thread.sleep(5000);
-            Message response = new Message("Recibido! :D ","owo","awa");
+            System.out.println(m.getFileName());
+            file = new File(m.getFileName());
+            System.out.println("Archivo creado!");
+            //Thread.sleep(5000);
+            Message response = new Message("Recibido! :D ",file);
             salidaCliente.writeObject(response);
             cs.close();
             System.out.println("Conexion terminada!");

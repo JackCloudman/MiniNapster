@@ -1,6 +1,14 @@
 import java.io.Serializable;
 public class Cancion implements Serializable{
-  String titulo,album,duracion,artista,path;
+  String titulo,album,duracion,artista,path,ip;
+  public Cancion(String titulo,String album,String duracion,String artista,String path,String ip){
+    this.titulo = titulo;
+    this.album = album;
+    this.duracion = duracion;
+    this.artista = artista;
+    this.path = path;
+    this.ip = ip;
+  }
   public Cancion(String titulo,String album,String duracion,String artista,String path){
     this.titulo = titulo;
     this.album = album;

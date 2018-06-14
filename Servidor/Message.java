@@ -64,4 +64,8 @@ public class Message implements Serializable{
   public String getdata(){
     return data;
   }
+  ///
+  public void setUser(String user){
+    this.user = user;
+  }
 }
