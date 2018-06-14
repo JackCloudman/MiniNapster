@@ -21,8 +21,8 @@ public class ConexionBD{
     public boolean insert(String nickname,String password){
         return sql.registrar(nickname,password);
     }
-    public boolean login(String nickname,String password)throws Exception{
-        return sql.login(nickname,password);
+    public boolean login(String nickname,String password,String ip)throws Exception{
+        return sql.login(nickname,password,ip);
     }
     public boolean upload(ArrayList<Cancion> listacanciones,String user){
       boolean response = true;

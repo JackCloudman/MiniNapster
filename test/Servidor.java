@@ -31,6 +31,7 @@ public class Servidor{
         while (true) {
             cs = ss.accept();
             System.out.println("Conexion establecida! ");
+            System.out.println(cs.getInetAddress().getHostName());
             salidaCliente = new ObjectOutputStream(cs.getOutputStream());
             ObjectInputStream entrada = new ObjectInputStream(cs.getInputStream());
             Message m = (Message)entrada.readObject();

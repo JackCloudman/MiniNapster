@@ -28,7 +28,7 @@ public class MiniServer implements Runnable{
         salidaCliente = new ObjectOutputStream(cs.getOutputStream());
         entrada = new ObjectInputStream(cs.getInputStream());
         m = (Message)entrada.readObject();
-        response = execute.createFile(path,m.getData());
+        response = execute.createFile(path+"/",m.getData());
         salidaCliente.writeObject(response);
         cs.close();
         System.out.println("Conexion terminada!");

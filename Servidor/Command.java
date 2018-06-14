@@ -8,15 +8,15 @@ public class Command{
       System.exit(1);
     }
   }
-  public Message proccesCommand(Message m){
+  public Message proccesCommand(Message m,String ip){
     try{
       String c = m.getCommand();
     if(c.equals("login")){
-      return login(m);
+      return login(m,ip);
     }else if (c.equals("register")) {
       return register(m);
     }else if (c.equals("upload")) {
-      return upload(m);
+      return upload(m,ip);
     }else if (c.equals("search")) {
       return search(m);
     }
@@ -35,14 +35,14 @@ public class Command{
       return new Message("El usuario ya existe! Intente iniciar sesion",false);
     }
   }
-  private Message login(Message m) throws Exception{
-    if(db.login(m.getUser(),m.getPassword())){
+  private Message login(Message m,String ip) throws Exception{
+    if(db.login(m.getUser(),m.getPassword(),ip)){
       return new Message("Has iniciado sesion!",true);
     }else{
         return new Message("Error en usuario o contraseña!",false);
     }
   }
-  private Message upload(Message m) throws Exception{
+  private Message upload(Message m,String ip) throws Exception{
     if(db.upload(m.getSongs(),m.getUser())){
       return new Message("Canciones subidas!",true);
     }else{

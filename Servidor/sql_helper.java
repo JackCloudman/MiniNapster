@@ -62,7 +62,7 @@ class sql_helper {
       return false;
     }
   }
-  public boolean login(String nickname,String password) throws Exception{
+  public boolean login(String nickname,String password,String ip) throws Exception{
     if(conexion==null){
       System.out.println("No se realizo correctamente la conexion! Verifica el estado de tu red!");
       return false;
@@ -71,6 +71,16 @@ class sql_helper {
     Statement stmt = conexion.createStatement();
     ResultSet rs = stmt.executeQuery(query);
     if(rs.next()){
+      int id = rs.getInt("id_usuario");
+      query = "INSERT INTO usuario_ip (usuario,ip) VALUES(?,?) ON DUPLICATE KEY UPDATE usuario=?, ip=?";
+      PreparedStatement stmtp = conexion.prepareStatement(query);
+      stmtp.setInt(1,id);
+      stmtp.setString(2,ip);
+      stmtp.setInt(3,id);
+      stmtp.setString(4,ip);
+      System.out.println(ip);
+      stmtp.executeUpdate();
+
       return true;
     }
     return false;

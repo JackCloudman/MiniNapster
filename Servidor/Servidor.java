@@ -34,7 +34,7 @@ public class Servidor{
             salidaCliente = new ObjectOutputStream(cs.getOutputStream());
             ObjectInputStream entrada = new ObjectInputStream(cs.getInputStream());
             Message m = (Message)entrada.readObject();
-            Message response = cmd.proccesCommand(m);
+            Message response = cmd.proccesCommand(m,cs.getInetAddress().getHostName());
             salidaCliente.writeObject(response);
             cs.close();
             System.out.println("Conexion terminada!");
