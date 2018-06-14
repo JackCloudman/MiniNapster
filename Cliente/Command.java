@@ -110,8 +110,12 @@ public class Command{
       /*System.out.println("Objeto enviado!");
       ObjectInputStream entrada = new ObjectInputStream(cs.getInputStream());
       return (Message)entrada.readObject();*/
-
-      Message request = new Message("download",c.getTitulo()+".mp3");
+      Message request;
+      if(Archivos.getFileExtensionbyString(c.getTitulo()).equals("mp3")){
+        request = new Message("download",c.getTitulo());
+      }else{
+        request = new Message("download",c.getTitulo()+".mp3");
+      }
       salida.writeObject(request);
       System.out.println("descargando...");
       ObjectInputStream entrada = new ObjectInputStream(cs.getInputStream());
@@ -120,7 +124,7 @@ public class Command{
         JOptionPane.showMessageDialog(null,response.getResponse());
         return false;
       }
-      FileOutputStream stream = new FileOutputStream(c.getTitulo()+".mp3");
+      FileOutputStream stream = new FileOutputStream(c.getTitulo());
       try {
         stream.write(response.getFileBytes());
       } finally {
