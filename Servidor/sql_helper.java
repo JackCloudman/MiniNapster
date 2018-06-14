@@ -62,10 +62,10 @@ class sql_helper {
       return false;
     }
   }
-  public boolean login(String nickname,String password,String ip) throws Exception{
+  public int login(String nickname,String password,String ip) throws Exception{
     if(conexion==null){
       System.out.println("No se realizo correctamente la conexion! Verifica el estado de tu red!");
-      return false;
+      return 0;
     }
     String query = "Select * from sistema_usuarios where nickname='"+nickname+"' and password='"+password+"'";
     Statement stmt = conexion.createStatement();
@@ -81,11 +81,11 @@ class sql_helper {
       System.out.println(ip);
       stmtp.executeUpdate();
 
-      return true;
+      return id;
     }
-    return false;
+    return 0;
   }
-  public boolean upload(Cancion c,int user_id){
+  public boolean upload(Cancion c,String user_id){
     try{
       String query= "Insert into canciones(nombre,duracion,artista,album,path,usuario) values(?,?,?,?,?,?)";
       if(conexion==null){
@@ -99,7 +99,7 @@ class sql_helper {
       stmt.setString(3,c.getArtista());
       stmt.setString(4,c.getAlbum());
       stmt.setString(5,c.getPath());
-      stmt.setInt(6,user_id);//id de usuario
+      stmt.setInt(6,Integer.parseInt(user_id));//id de usuario
       stmt.executeUpdate();
       return true;
     }catch(Exception e){

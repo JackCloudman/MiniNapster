@@ -36,8 +36,11 @@ public class Command{
     }
   }
   private Message login(Message m,String ip) throws Exception{
-    if(db.login(m.getUser(),m.getPassword(),ip)){
-      return new Message("Has iniciado sesion!",true);
+    int user_id = db.login(m.getUser(),m.getPassword(),ip);
+    if(user_id!=0){
+      Message response = new Message("Has iniciado sesion!",true);
+      response.setData(user_id+"");
+      return response;
     }else{
         return new Message("Error en usuario o contraseña!",false);
     }

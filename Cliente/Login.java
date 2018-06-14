@@ -91,13 +91,16 @@ public class Login extends JFrame implements ActionListener{
     }
     if(b==register){
       if(execute.register(susuario,spassword)){
-        setVisible(false);
+        //setVisible(false);
       }
       System.out.println("Registro!");
     }
     if(b==login){
-      if(execute.login(susuario,spassword)){
+      Message response= execute.login(susuario,spassword);
+      if(response.getResult()){
         setVisible(false);
+        Cliente c = new Cliente(response.getData());
+        c.createAndShowGUI();
       }
       System.out.println("Iniciar sesion!");
     }

@@ -21,16 +21,16 @@ public class Command{
     ObjectInputStream entrada = new ObjectInputStream(cs.getInputStream());
     return (Message)entrada.readObject();
   }
-  public boolean login(String user,String password){
+  public Message login(String user,String password){
     try{
       Message request = new Message("login",user,password);
       Message response = send(request);
       Displayresponse(response);
-      return response.getResult();
+      return response;
     }catch (Exception e) {
       JOptionPane.showMessageDialog(null,"No se pudo conectar al servidor!");
       System.out.println(e);
-      return false;
+      return null;
     }
   }
   public boolean register(String user,String password){

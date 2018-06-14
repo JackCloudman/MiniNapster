@@ -12,14 +12,15 @@ public class Cliente implements ActionListener,MouseListener{
     JTable jt;
     JTextField textobusqueda;
     String column[]={"Titulo","Duracion","Artista","Album"};
-    String path;
+    String path,user_id;
     ArrayList<Cancion> lista;
     int n_cancion,port;
     Thread t;
     Config cfg;
     MiniServer miniserver;
     private Command execute;
-    public Cliente(){
+    public Cliente(String user_id){
+        this.user_id = user_id;
         cfg = new Config();
         port = Integer.parseInt(cfg.get("port"));
         execute = new Command();
@@ -103,7 +104,7 @@ public class Cliente implements ActionListener,MouseListener{
      * this method should be invoked from the
      * event-dispatching thread.
      */
-    private void createAndShowGUI() {
+    public void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("GridBagLayoutDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,7 +155,7 @@ public class Cliente implements ActionListener,MouseListener{
         if(!path.equals("")){
           System.out.println("Thread desde MiniServer");
             lista = Archivos.getSongs(path);
-            execute.upload("jack",lista);
+            execute.upload(user_id,lista);
             if(miniserver==null){
               miniserver = new MiniServer(path);
             }else{
@@ -168,7 +169,7 @@ public class Cliente implements ActionListener,MouseListener{
       }
 
     }
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -177,5 +178,5 @@ public class Cliente implements ActionListener,MouseListener{
                 d.createAndShowGUI();
             }
         });
-    }
+    }*/
 }
